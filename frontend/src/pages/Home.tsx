@@ -1,16 +1,34 @@
-import { useState, type FormEvent } from "react"
+import { useEffect, useState, type FormEvent } from "react"
 import type { Movie } from "../components/Moviecard"
 import Moviecard from "../components/Moviecard"
+import "../css/Home.css"
+import "../services/api.ts"
+import { getPopularMovies } from "../services/api.ts"
 
 function Home (){
 
     const [searchQuery , setSearchQuery] = useState("");
+    const [movies, setMovies] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const movies: Movie[] = [
-        {Id: 1, Title: "BBC", Url: "vs.com", ReleaseDate: new Date()},
-        {Id: 2, Title: "BBC2", Url: "vs.com", ReleaseDate: new Date()},
-        {Id: 4, Title: "BBC4", Url: "vs.com", ReleaseDate: new Date()}
-    ];
+    useEffect(() => {
+        async function fetchPopularMovies(){
+            try{
+                const movies = await getPopularMovies();
+                console.log("Popular movies fetched:", movies);
+                setMovies(movies);
+            }
+            catch(error){
+                console.error("Error fetching popular movies:", error);
+            }
+            finally{
+                setLoading(false);
+            }
+        }
+        fetchPopularMovies();
+    } , []);
+
 
     function handleSearch(e: FormEvent<HTMLFormElement>){
         e.preventDefault();
@@ -28,8 +46,8 @@ function Home (){
                 <button type="submit" className="search-button">Submit</button>
             </form>
             <div className="movies-grid">
-                {movies.map(m => (m.Title.toLowerCase().startsWith(searchQuery) &&
-                <Moviecard movie={m} key={m.Id}/>))} 
+                {movies.map((m) => (
+                <Moviecard movie={m} />))} 
             </div>   
         </div>
     </>

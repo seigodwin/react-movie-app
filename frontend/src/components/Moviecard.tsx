@@ -1,9 +1,10 @@
+import "../css/Moviecard.css"
 
 export type Movie = {
-    Id: number,
-    Title: string,
-    Url: string,
-    ReleaseDate: Date
+    id: number,
+    title: string,
+    url: string,
+    release_date: string
 }
 export type MovieProps = {
     movie: Movie
@@ -17,14 +18,14 @@ function Moviecard ({movie}: MovieProps){
 
     return <div className="movie-card">
             <div className="movie-poster">
-                <img src={movie.Url} alt={movie.Title}></img>
+                <img src={movie.url} alt={movie.title}></img>
                 <div className="movie-overlay">
                     <button onClick={onFavoriteClick}>❤️</button>
                 </div>
             </div>
             <div className="movie-info">
-                <h3>{movie.Title}</h3>
-                <p>{movie.ReleaseDate.toDateString()}</p>
+                <h3>{movie.title}</h3>
+                <p>{movie.release_date}</p>
             </div>
     </div>
 }
