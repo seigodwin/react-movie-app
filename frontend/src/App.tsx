@@ -1,13 +1,12 @@
 
 import './App.css'
-import Moviecard from './components/Moviecard'
+import Home from './pages/Home'
 
 function App() {
   return (
     <>
-     <Moviecard movie ={{Id: 1 , Title: "BBC", ReleaseDate: new Date(), Url: "vs.com"}}/>
+     <Home />
     </>
   )
 }
-
 export default App
