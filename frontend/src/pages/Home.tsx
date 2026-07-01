@@ -3,13 +3,13 @@ import type { Movie } from "../components/Moviecard"
 import Moviecard from "../components/Moviecard"
 import "../css/Home.css"
 import "../services/api.ts"
-import { getPopularMovies } from "../services/api.ts"
+import { getPopularMovies, searchMovies } from "../services/api.ts"
 
 function Home (){
 
     const [searchQuery , setSearchQuery] = useState("");
     const [movies, setMovies] = useState([]);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -20,6 +20,7 @@ function Home (){
                 setMovies(movies);
             }
             catch(error){
+                setError("Failed to load popular movies. Please try again later.");    
                 console.error("Error fetching popular movies:", error);
             }
             finally{
@@ -30,10 +31,26 @@ function Home (){
     } , []);
 
 
-    function handleSearch(e: FormEvent<HTMLFormElement>){
+    async function handleSearch(e: FormEvent<HTMLFormElement>){
         e.preventDefault();
-        alert(searchQuery);
-        setSearchQuery("");
+        
+        if(searchQuery.trim() === "") return;
+        if(loading) return;
+
+        setLoading(true);
+        try{
+
+            const searchResults = await searchMovies(searchQuery);
+            setMovies(searchResults);
+            setError("");
+        }
+
+        catch(error){
+            setError("Failed to search movies. Please try again later.");
+        }
+        finally{
+            setLoading(false);
+        }
     }
 
     return <>          
@@ -45,10 +62,13 @@ function Home (){
                 onChange={(e) => setSearchQuery(e.target.value)}/>
                 <button type="submit" className="search-button">Submit</button>
             </form>
-            <div className="movies-grid">
+            {error && <div className="error">{error}</div>}
+
+            {loading ? ( <div className="loading"> Loading movies...</div>):
+            (<div className="movies-grid">
                 {movies.map((m) => (
-                <Moviecard movie={m} />))} 
-            </div>   
+                <Moviecard movie={m}/>))} 
+            </div>)}
         </div>
     </>
 }
