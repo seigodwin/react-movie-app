@@ -1,5 +1,4 @@
 import { useEffect, useState, type FormEvent } from "react"
-import type { Movie } from "../components/Moviecard"
 import Moviecard from "../components/Moviecard"
 import "../css/Home.css"
 import "../services/api.ts"
