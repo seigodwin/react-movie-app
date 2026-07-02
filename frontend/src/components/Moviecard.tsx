@@ -1,4 +1,5 @@
 import "../css/Moviecard.css"
+import { useMovieContext } from "../context/MovieContext";
 
 export type Movie = {
     id: number,
@@ -10,10 +11,18 @@ export type MovieProps = {
     movie: Movie
 }
 
-function Moviecard ({movie}:any){
+function Moviecard ({movie}: MovieProps) {
+    const { addToFavorites, removeFromFavorites, isFavorite } = useMovieContext();  
+        
+    const favorite = isFavorite(movie.id);          
 
-    function onFavoriteClick(){ 
-        return <p>Favorite clicked</p> 
+    function onFavoriteClick(e: React.MouseEvent<HTMLButtonElement>){ 
+        e.preventDefault();
+        if (favorite) {
+            removeFromFavorites(movie.id);
+        } else {
+            addToFavorites(movie);
+        }
     } 
 
     const posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
@@ -22,7 +31,8 @@ function Moviecard ({movie}:any){
             <div className="movie-poster">
                 <img src={posterUrl} alt={movie.title}></img>
                 <div className="movie-overlay">
-                    <button onClick={onFavoriteClick}>❤️</button>
+                    <button className={`favorite-btn ${favorite ? "active" : ""}`} onClick={onFavoriteClick}>
+                    🤍</button>
                 </div>
             </div>
             <div className="movie-info">
