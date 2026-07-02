@@ -1,4 +1,5 @@
 # React Movie App
+[![CI](https://github.com/seigodwin/react-movie-app/actions/workflows/main.yml/badge.svg)](https://github.com/seigodwin/react-movie-app/actions/workflows/main.yml)
 
 A modern movie browsing application built with **React** and **TypeScript**. Browse trending movies, manage your favorite movies, and enjoy a clean, responsive user interface powered by React Context and local storage.
 
