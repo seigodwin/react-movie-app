@@ -1,13 +1,13 @@
 import { useEffect, useState, type FormEvent } from "react"
 import Moviecard from "../components/Moviecard"
+import type { Movie } from "../components/Moviecard"
 import "../css/Home.css"
-import "../services/api.ts"
 import { getPopularMovies, searchMovies } from "../services/api.ts"
 
 function Home (){
 
     const [searchQuery , setSearchQuery] = useState("");
-    const [movies, setMovies] = useState([]);
+    const [movies, setMovies] = useState<Movie[]>([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
