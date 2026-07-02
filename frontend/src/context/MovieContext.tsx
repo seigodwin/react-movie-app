@@ -8,16 +8,14 @@ type MovieProviderProps = {
 };
 
 export function MovieProvider({ children }: MovieProviderProps) {
-    const [favoriteMovies, setFavoriteMovies] = useState<Movie[]>([]);
-
-    // Load favorites from localStorage when the app starts
-    useEffect(() => {
-        const storedFavorites = localStorage.getItem("favoriteMovies");
-
-        if (storedFavorites) {
-            setFavoriteMovies(JSON.parse(storedFavorites));
+    const [favoriteMovies, setFavoriteMovies] = useState<Movie[]>(() => {
+        try {
+            const stored = localStorage.getItem("favoriteMovies");
+            return stored ? JSON.parse(stored) as Movie[] : [];
+        } catch {
+            return [];
         }
-    }, []);
+    });
 
     // Save favorites whenever they change
     useEffect(() => {
