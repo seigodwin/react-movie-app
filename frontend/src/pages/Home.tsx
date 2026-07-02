@@ -43,9 +43,10 @@ function Home (){
             setMovies(searchResults);
             setError("");
         }
-
+        
         catch(error){
             setError("Failed to search movies. Please try again later.");
+            console.error("Error searching movies:", error);
         }
         finally{
             setLoading(false);

@@ -1,34 +1,7 @@
-import {
-    createContext,
-    useContext,
-    useEffect,
-    useState,
-    type ReactNode,
-} from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import type { Movie } from "../components/Moviecard";
-
-type MovieContextType = {
-    favoriteMovies: Movie[];
-    addToFavorites: (movie: Movie) => void;
-    removeFromFavorites: (movieId: number) => void;
-    isFavorite: (movieId: number) => boolean;
-};
-
-const MovieContext = createContext<MovieContextType | null>(null);
-
-export function useMovieContext() {
-    
-    const context = useContext(MovieContext);
-
-    if (!context) {
-        throw new Error(
-            "useMovieContext must be used within a MovieProvider"
-        );
-    }
-
-    return context;
-}
+import { MovieContext, type MovieContextType } from "./MovieContextState";
 
 type MovieProviderProps = {
     children: ReactNode;
